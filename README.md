@@ -24,9 +24,9 @@ ConnectSphere demonstrates a complete integration of SP1 zero-knowledge proofs w
 
 ```
 Frontend → Backend → SP1 Prover → Walrus Storage → Soundness CLI
-   🎭       🔄        🔐           💾            ⛓️
- Clerk    Queue    ZK Proof    Blob Storage   On-chain
- OAuth    Mgmt     Generation  Public Access  Attestation
+   🎭       🔄        🔐           💾                ⛓️
+ Clerk    Queue    ZK Proof     Blob Storage         On-chain
+ OAuth    Mgmt     Generation  Public Access      Attestation
 ```
 
 ## 🚀 Quick Start
