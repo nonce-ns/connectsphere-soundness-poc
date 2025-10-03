@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConnectSphere POC - SP1 + Soundness Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .status.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .status.processing {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
+        .result-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin: 10px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .step.completed .step-number {
+            background: #48bb78;
+        }
+
+        .step.pending .step-number {
+            background: #e2e8f0;
+            color: #718096;
+        }
+
+        .architecture {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .arch-component {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            text-align: center;
+        }
+
+        .arch-component h4 {
+            margin-bottom: 5px;
+            color: #4a5568;
+        }
+
+        .arch-component p {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 ConnectSphere POC</h1>
+            <p>SP1 Zero-Knowledge Email Verification + Soundness Layer Integration</p>
+        </div>
+
+        <div class="card">
+            <h2>🏗️ Architecture Overview</h2>
+            <div class="architecture">
+                <div class="arch-component">
+                    <h4>🎭 User Auth</h4>
+                    <p>Clerk JWT + Sui Wallet</p>
+                </div>
+                <div class="arch-component">
+                    <h4>🔐 SP1 Prover</h4>
+                    <p>ZK Email Verification</p>
+                </div>
+                <div class="arch-component">
+                    <h4>💾 Walrus Storage</h4>
+                    <p>Decentralized Blobs</p>
+                </div>
+                <div class="arch-component">
+                    <h4>⛓️ Soundness CLI</h4>
+                    <p>On-chain Attestation</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🚀 Generate SP1 Proof</h2>
+            <form id="proofForm">
+                <div class="form-group">
+                    <label for="clerkUserId">Clerk User ID</label>
+                    <input type="text" id="clerkUserId" placeholder="user_123" value="user_123" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="suiAddress">SUI Wallet Address</label>
+                    <input type="text" id="suiAddress" placeholder="0x..." pattern="^0x[a-fA-F0-9]{64}$" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="jwtToken">Clerk JWT Token</label>
+                    <textarea id="jwtToken" placeholder="eyJhbGciOiJSUzI1NiIs..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn" id="generateBtn">
+                    🔐 Generate SP1 Proof
+                </button>
+            </form>
+
+            <div id="status" class="status"></div>
+        </div>
+
+        <div id="resultSection" class="result-section">
+            <h2>✅ Proof Generation Results</h2>
+
+            <div id="progressSteps">
+                <div class="step completed" id="step1">
+                    <div class="step-number">1</div>
+                    <div>✅ JWT Validation</div>
+                </div>
+                <div class="step pending" id="step2">
+                    <div class="step-number">2</div>
+                    <div>⏳ SP1 Proof Generation</div>
+                </div>
+                <div class="step pending" id="step3">
+                    <div class="step-number">3</div>
+                    <div>⏳ Walrus Upload</div>
+                </div>
+                <div class="step pending" id="step4">
+                    <div class="step-number">4</div>
+                    <div>⏳ CLI Ready</div>
+                </div>
+            </div>
+
+            <div id="resultData"></div>
+
+            <h3>🎯 Next Steps</h3>
+            <p>Copy the command below and run it with Soundness CLI:</p>
+            <div class="code-block" id="cliCommand"></div>
+        </div>
+
+        <div class="card">
+            <h2>📊 Current Status</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                <div>
+                    <h4>🔐 SP1 Prover</h4>
+                    <p style="color: #48bb78;">✅ Working</p>
+                </div>
+                <div>
+                    <h4>💾 Walrus Upload</h4>
+                    <p style="color: #48bb78;">✅ Working</p>
+                </div>
+                <div>
+                    <h4>⛓️ Soundness CLI</h4>
+                    <p style="color: #ed8936;">🔧 Testnet Issues</p>
+                </div>
+                <div>
+                    <h4>🌐 Network</h4>
+                    <p style="color: #4a5568;">Sui Testnet</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>ConnectSphere × Soundness Layer Proof of Concept</p>
+            <p>Privacy-preserving identity verification using zero-knowledge proofs</p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('proofForm');
+        const generateBtn = document.getElementById('generateBtn');
+        const status = document.getElementById('status');
+        const resultSection = document.getElementById('resultSection');
+        const resultData = document.getElementById('resultData');
+        const cliCommand = document.getElementById('cliCommand');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const clerkUserId = document.getElementById('clerkUserId').value;
+            const suiAddress = document.getElementById('suiAddress').value;
+            const jwtToken = document.getElementById('jwtToken').value;
+
+            // Validate SUI address
+            if (!/^0x[a-fA-F0-9]{64}$/.test(suiAddress)) {
+                showStatus('Invalid SUI address format. Must be 0x followed by 64 hex characters.', 'error');
+                return;
+            }
+
+            // Validate JWT format
+            if (!jwtToken.startsWith('eyJ') || jwtToken.split('.').length !== 3) {
+                showStatus('Invalid JWT token format.', 'error');
+                return;
+            }
+
+            // Disable button and show processing
+            generateBtn.disabled = true;
+            generateBtn.textContent = '⏳ Generating Proof...';
+            showStatus('🔄 Starting SP1 proof generation...', 'processing');
+            resultSection.style.display = 'none';
+
+            // Reset steps
+            updateStep(1, 'completed', '✅ JWT Validation');
+            updateStep(2, 'pending', '⏳ SP1 Proof Generation');
+            updateStep(3, 'pending', '⏳ Walrus Upload');
+            updateStep(4, 'pending', '⏳ CLI Ready');
+
+            try {
+                const response = await fetch('http://localhost:3002/api/generate-proof-single', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        clerk_user_id: clerkUserId,
+                        sui_address: suiAddress,
+                        jwt_token: jwtToken
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    updateStep(2, 'completed', '✅ SP1 Proof Generated');
+                    updateStep(3, 'completed', '✅ Walrus Upload Complete');
+                    updateStep(4, 'completed', '✅ CLI Ready');
+
+                    showStatus('✅ Proof generated successfully!', 'success');
+
+                    // Display results
+                    displayResults(data);
+                } else {
+                    showStatus(`❌ Error: ${data.error || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Network error: ${error.message}`, 'error');
+            } finally {
+                generateBtn.disabled = false;
+                generateBtn.textContent = '🔐 Generate SP1 Proof';
+            }
+        });
+
+        function showStatus(message, type) {
+            status.textContent = message;
+            status.className = `status ${type}`;
+            status.style.display = 'block';
+        }
+
+        function updateStep(stepNumber, status, text) {
+            const step = document.getElementById(`step${stepNumber}`);
+            step.className = `step ${status}`;
+            step.querySelector('div:last-child').textContent = text;
+        }
+
+        function displayResults(data) {
+            const sessionId = data.session_id || 'N/A';
+            const proofBlobId = data.result?.proof_blob_id || 'N/A';
+            const elfBlobId = data.result?.elf_blob_id || 'N/A';
+            const verificationLink = data.result?.verification_link || 'N/A';
+
+            resultData.innerHTML = `
+                <h3>📋 Proof Details</h3>
+                <p><strong>Session ID:</strong> ${sessionId}</p>
+                <p><strong>Proof Blob ID:</strong> ${proofBlobId}</p>
+                <p><strong>ELF Blob ID:</strong> ${elfBlobId}</p>
+                <p><strong>Verification Link:</strong> <a href="${verificationLink}" target="_blank">${verificationLink}</a></p>
+
+                <h3>🔍 Verification</h3>
+                <p>Check proof blob on Walrus:</p>
+                <div class="code-block">curl -I https://aggregator.walrus-testnet.walrus.space/v1/blobs/${proofBlobId}</div>
+            `;
+
+            if (data.result?.cli_command) {
+                cliCommand.textContent = data.result.cli_command;
+            } else {
+                cliCommand.textContent = `soundness-cli send \\
+  --proof-file ${proofBlobId} \\
+  --elf-file ${elfBlobId} \\
+  --key-name connectsphere-verifier \\
+  --proving-system sp1`;
+            }
+
+            resultSection.style.display = 'block';
+        }
+
+        // Auto-fill example data for demo
+        document.addEventListener('DOMContentLoaded', () => {
+            // You can add example JWT here for demo purposes
+            // document.getElementById('jwtToken').value = 'example.jwt.token.here';
+        });
+    </script>
+</body>
+</html>

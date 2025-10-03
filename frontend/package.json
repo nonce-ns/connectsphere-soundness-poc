@@ -1,0 +1,17 @@
+{
+  "name": "connectsphere-poc-frontend",
+  "version": "1.0.0",
+  "description": "Simple UI for ConnectSphere POC demo",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {},
+  "keywords": ["connectsphere", "sp1", "soundness", "poc"],
+  "author": "ConnectSphere Team",
+  "license": "MIT"
+}
