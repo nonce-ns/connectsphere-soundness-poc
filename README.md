@@ -54,7 +54,7 @@ docker compose up -d
 | SP1 Prover | ✅ Working | Generates valid ZK proofs |
 | Walrus Upload | ✅ Working | 9.55MB proof blobs stored |
 | Backend API | ✅ Working | Queue + rate limiting |
-| Soundness CLI | 🔧 Blocked | HTTP 500 on testnet |
+| Soundness CLI | 🔧 Server-returned | Status-502-Bad-Gateway | (./Server-returned-status-502-Bad-Gateway.md)
 
 ## 📁 Project Structure
 
