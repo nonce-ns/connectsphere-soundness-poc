@@ -1,5 +1,7 @@
 # ConnectSphere × Soundness Layer POC
 
+> **Note:** You can walk through this proof of concept at [https://connect-sphere.xyz](https://connect-sphere.xyz). This environment is a working concept and may change without notice as the production implementation evolves.
+
 > **Privacy-preserving identity verification using SP1 zero-knowledge proofs and Soundness Layer**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
