@@ -117,3 +117,33 @@ All artifacts, signatures, and payloads are valid and publicly accessible. The f
 2. **Confirm aggregator endpoint configuration**: ensure production fetcher points to the Walrus **mainnet** aggregator (`https://aggregator.walrus.network`) and can resolve Cloudflare DNS.
 3. **Validate fetch from server-side**: run a `curl -I` or equivalent from the Soundness backend environment to the blob URL to verify connectivity.
 4. **Check request size and timeouts**: confirm there are no additional limits or early timeouts when downloading ±30 MB blobs.
+
+
+-------------------------
+My simple test on ligetron :
+  ```
+root@vmi2640956:~# soundness-cli send     --proof-file CU6qGI1cVqwJfuldFVwpSziSPTUKPbuSZF-0KdpaCTM     --elf-file LiXVA4WjcPfO_hK2o-TethUrJyx6Q8np9rNDTrFL0kg     --key-name NS     --proving-system ligetron     --payload '{"program":"../sdk/build/examples/addition.wasm","shader-path":"../shader","packing":8192, "private-indices": [0, 1], "args":[{"i64":5},{"i64":7},{"i64":12}]}'
+🔍 Analyzing inputs...
+📁 Proof: Detected as Walrus Blob ID: CU6qGI1cVqwJfuldFVwpSziSPTUKPbuSZF-0KdpaCTM
+📁 ELF Program: Detected as Walrus Blob ID: LiXVA4WjcPfO_hK2o-TethUrJyx6Q8np9rNDTrFL0kg
+  📂 Inputs processed successfully                                                                                                                                                                    Enter password to decrypt the secret key: 
+  ✍️  Payload signed successfully                                                                                                                                                                     ⠁
+  🚀 Request sent successfully                                                                                                                                                                        
+✅ Successfully sent files to https://testnet.soundness.xyz
+
+🎯 Proof Submission Results
+═══════════════════════════
+✅ Status: SUCCESS
+📝 Message: Proof processing completed
+🔧 Proving System: ligetron
+🔍 Proof Verification: ✅ SUCCESS
+⛓️  Sui Transaction: ✅ SUCCESS
+🔗 Transaction Digest: 6aj76k8g4yNUhCTLF1YKwWQrm1EXvRXshL2CZMLdVriR
+📦 Proof Blob ID: CU6qGI1cVqwJfuldFVwpSziSPTUKPbuSZF-0KdpaCTM
+🔑 Program Blob ID: N/A
+🔍 Suiscan Link: https://suiscan.xyz/mainnet/tx/6aj76k8g4yNUhCTLF1YKwWQrm1EXvRXshL2CZMLdVriR
+🌊 Walruscan Links:
+   📦 Proof Data: https://walruscan.com/mainnet/blob/CU6qGI1cVqwJfuldFVwpSziSPTUKPbuSZF-0KdpaCTM
+   🔑 VK: N/A
+═══════════════════════════
+  ```
